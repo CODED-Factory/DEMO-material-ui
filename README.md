@@ -1,68 +1,317 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Material UI
 
-## Available Scripts
+[Slides](https://docs.google.com/presentation/d/1f4rTPjVXGtefW04qkcVll0mcfhuao2LrrsrCcb9S-DM/edit?usp=sharing)
 
-In the project directory, you can run:
+<!-- [Recording](https://youtu.be/MNHc0j8PDnE) -->
 
-### `yarn start`
+### Setup a React-App
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Create a react app (if you already have a project go to the next section):
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+   ```bash
+   $ yarn create react-app <appName>
+   ```
 
-### `yarn test`
+2. Run the app:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   $ yarn start
+   ```
 
-### `yarn build`
+### Setup Material-UI
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Install dependency
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+   ```bash
+   $ yarn add @material-ui/core
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Material-UI uses Roboto Font and font icons so we'll have to add their stylesheets in `index.html` (optional)
 
-### `yarn eject`
+   ```html
+   <link
+     rel="stylesheet"
+     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+   />
+   <link
+     rel="stylesheet"
+     href="https://fonts.googleapis.com/icon?family=Material+Icons"
+   />
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3. To use pre-built SVG icons provided by Material-UI install the following dependancy (optional)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   $ yarn add @material-ui/icons
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Using Material-UI Components
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Using a button component from Material-UI
 
-## Learn More
+   - Import the component
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```jsx
+   import { Button } from "@material-ui/core";
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - Use the component
 
-### Code Splitting
+   ```jsx
+   <Button> I am a button </Button>
+   ```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+   - Customize the button [Documentation](https://material-ui.com/api/button/)
 
-### Analyzing the Bundle Size
+   ```jsx
+   <Button variant="contained" color="secondary" size="medium">
+        I am a button
+    </Button>
+    <Button variant="outlined" color="primary" size="medium" fullWidth>
+        I am a button
+    </Button>
+    <Button variant="text" color="secondary" size="medium">
+        I am a button
+    </Button>
+   ```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+2. Using `Typography` in Material-UI
 
-### Making a Progressive Web App
+   - Import `Typography`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+   ```jsx
+   import { Typography } from "@material-ui/core";
+   ```
 
-### Advanced Configuration
+   - Use `Typography`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+   ```jsx
+   <Typography>Any text here</Typography>
+   ```
 
-### Deployment
+   - Customize Typography using [options](https://material-ui.com/api/typography/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+   ```jsx
+   <Typography align="center" >
+       Any text here
+   </Typography>
+   <Typography align="left" variant="h1"  >
+       Any text here
+   </Typography>
+   <Typography align="right" variant="h1" gutterBottom color="primary"  >
+       Any text here
+   </Typography>
+   ```
 
-### `yarn build` fails to minify
+### Customize Material-UI theme
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+1. Look at the default theme for Material-UI:
+
+   - The [theme](https://material-ui.com/customization/default-theme/#default-theme) defines the screen breakpoints, components directions, colors , typography and many other things
+
+2. To change the theme first create a `theme.js` file in your project directory
+
+3. In the `theme.js` file, import [MuiTheme](https://material-ui.com/customization/theming/#createmuitheme-options-args-theme) to customize css
+
+   ```jsx
+   import { createMuiTheme } from "@material-ui/core/styles";
+   ```
+
+4. Define a constant `theme` and create a styled component for your project using the same options `Material-UI` uses to override their styles
+
+   ```jsx
+   const theme = createMuiTheme({
+     palette: {
+       primary: {
+         main: "green",
+       },
+       secondary: {
+         main: "orange",
+       },
+     },
+   });
+
+   export default theme;
+   ```
+
+5. Now we need to pass a [ThemeProvider](https://material-ui.com/styles/api/#themeprovider) to our project
+
+   - In `index.js` import the following
+
+   ```jsx
+   import { ThemeProvider } from "@material-ui/core/styles";
+   ```
+
+   - Import your theme
+
+   ```jsx
+   import theme from "./theme.js";
+   ```
+
+   - Wrap the `<App>` with the `ThemeProvider` and pass it the `theme`
+
+   ```jsx
+   <ThemeProvider theme={theme}>
+     <App />
+   </ThemeProvider>
+   ```
+
+### Styled components in Material-UI
+
+1. Import `styled` fromt material-ui'
+
+   ```jsx
+   import { styled } from "@material-ui/core/styles";
+   ```
+
+2. Import the component/components you're going to style
+
+   ```jsx
+   import { Button } from "@material-ui/core";
+   ```
+
+3. Customize you styled component
+
+   ```jsx
+   const MyButton = styled(Button)({
+     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+     border: 0,
+     borderRadius: 3,
+     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+     color: "white",
+     height: 48,
+     padding: "0 30px",
+   });
+   ```
+
+4. Use the Styled component in your code
+
+   ```jsx
+   <MyButton>Styled Components</MyButton>
+   ```
+
+### More frequently used components
+
+- Cards
+
+  1.  Create a file called `CardDemo.js` Import the `Card` component and it's children
+
+      ```jsx
+      import {
+        Card,
+        CardHeader,
+        CardMedia,
+        CardContent,
+        Typography,
+        Avatar,
+      } from "@material-ui/core";
+      ```
+
+  2.  Using the imported components [options](https://material-ui.com/components/cards/#card)
+
+      ```jsx
+      <Card>
+        <CardHeader title="Food" subheader="Everyone loves food" />
+        <CardMedia
+          image="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+          title="All types of food"
+        />
+        <CardContent>
+          <Typography paragraph color="secondary">
+            This impressive paella is a perfect party dish and a fun meal to
+            cook together with your guests. Add 1 cup of frozen peas along with
+            the mussels, if you like.
+          </Typography>
+        </CardContent>
+      </Card>
+      ```
+
+  3.  Style the components
+
+      ```jsx
+      const MyCard = styled(Card)({
+        maxWidth: 345,
+      });
+
+      const MyCardMedia = styled(CardMedia)({
+        height: 0,
+        paddingTop: "56.25%", // 16:9
+      });
+      ```
+
+      - Then modify the components names
+
+        ```jsx
+        <MyCard>
+          <CardHeader title="Food" subheader="Everyone loves food" />
+          <MyCardMedia
+            image="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+            title="All types of food"
+          />
+          <CardContent>
+            <Typography paragraph color="secondary">
+              This impressive paella is a perfect party dish and a fun meal to
+              cook together with your guests. Add 1 cup of frozen peas along
+              with the mussels, if you like.
+            </Typography>
+          </CardContent>
+        </MyCard>
+        ```
+
+- Grid
+
+  1. Create a file called `GridDemo.js` and Import the `Grid` component and Card component from the project
+
+     ```jsx
+     import { Grid } from "@material-ui/core";
+     import CardDemo from "./CardDemo.js";
+     ```
+
+  2. Using the `Grid` [options](https://material-ui.com/api/container/)
+
+     ```jsx
+     <Grid container spacing={3}>
+       <Grid item xs={12}>
+         <Card />
+       </Grid>
+       <Grid direction="row" alignItems="center">
+         <Grid item xs={6}>
+           <Card />
+         </Grid>
+         <Grid item xs={6}>
+           <Card />
+         </Grid>
+       </Grid>
+       <Grid direction="row" alignItems="center">
+         <Grid item xs={3}>
+           <Card />
+         </Grid>
+         <Grid item xs={3}>
+           <Card />
+         </Grid>
+         <Grid item xs={3}>
+           <Card />
+         </Grid>
+         <Grid item xs={3}>
+           <Card />
+         </Grid>
+       </Grid>
+     </Grid>
+     ```
+
+- Containers
+
+  1. Create a file called `ContainerDemo.js` Import the `Container` component
+
+     ```jsx
+     import { Container } from "@material-ui/core";
+     import GridDemo from "./GridDemo.js";
+     ```
+
+  2. Using the `Container` [options](https://material-ui.com/api/container/)
+
+     ```jsx
+     <Container maxWidth="xl">
+        <GridDemo>
+     </Container>
+     ```
