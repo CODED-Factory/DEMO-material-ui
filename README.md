@@ -1,6 +1,6 @@
 # Material UI
 
-[Slides](https://docs.google.com/presentation/d/1f4rTPjVXGtefW04qkcVll0mcfhuao2LrrsrCcb9S-DM/edit?usp=sharing)
+[Slides](https://docs.google.com/presentation/d/17UIfeERpl-VDr4XGc3YkQitICg4aC0mATkHI8HUe1xE/edit?usp=sharing)
 
 <!-- [Recording](https://youtu.be/MNHc0j8PDnE) -->
 
@@ -49,7 +49,7 @@
 
 1. Using a button component from Material-UI
 
-   - Import the component
+   - Create a component called `ButtonDemo.js` Import the component
 
    ```jsx
    import { Button } from "@material-ui/core";
@@ -61,23 +61,25 @@
    <Button> I am a button </Button>
    ```
 
+   - Import `<ButtonDemo/>` in `app.js` and render it
+
    - Customize the button [Documentation](https://material-ui.com/api/button/)
 
    ```jsx
    <Button variant="contained" color="secondary" size="medium">
-        I am a button
+        I am contained button
     </Button>
     <Button variant="outlined" color="primary" size="medium" fullWidth>
-        I am a button
+        I am a outlined button
     </Button>
     <Button variant="text" color="secondary" size="medium">
-        I am a button
+        I am a text button
     </Button>
    ```
 
 2. Using `Typography` in Material-UI
 
-   - Import `Typography`
+   - Create a component called `TypographDemo.js` and Import `Typography`
 
    ```jsx
    import { Typography } from "@material-ui/core";
@@ -88,6 +90,8 @@
    ```jsx
    <Typography>Any text here</Typography>
    ```
+
+   - Import `<TypographDemo/>` in `app.js` and render it
 
    - Customize Typography using [options](https://material-ui.com/api/typography/)
 
@@ -123,10 +127,10 @@
    const theme = createMuiTheme({
      palette: {
        primary: {
-         main: "green",
+         main: "#32CD32",
        },
        secondary: {
-         main: "orange",
+         main: "#FF4500",
        },
      },
    });
@@ -190,11 +194,40 @@
    <MyButton>Styled Components</MyButton>
    ```
 
+5. To pass props to a styled component for multiple use
+
+   - Change the code above to look like the following in `ButtonDemo.js`
+
+   ```jsx
+   const MyButton = styled(Button)({
+     background: (props) =>
+       props.customcolor ?? "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+     border: 0,
+     borderRadius: 3,
+     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+     color: "white",
+     height: 48,
+     padding: "0 30px",
+   });
+   ```
+
+   - Then change the buttons rendered to look like the following
+
+   ```jsx
+    <MyButton customcolor={"#CCB647"}>I am contained button</MyButton>
+    <MyButton customcolor={"#FFFF00"} variant="contained" color="secondary">
+    I am a outlined button
+    </MyButton>
+    <Button variant="text" color="secondary">
+    I am a text button
+    </Button>
+   ```
+
 ### More frequently used components
 
 - Cards
 
-  1.  Create a file called `CardDemo.js` Import the `Card` component and it's children
+  1.  Create a component called `CardDemo.js` Import the `Card` component and it's children
 
       ```jsx
       import {
@@ -207,12 +240,27 @@
       } from "@material-ui/core";
       ```
 
-  2.  Using the imported components [options](https://material-ui.com/components/cards/#card)
+  2.  Import `styled` for styled components
+
+  ```jsx
+  import { styled } from "@material-ui/core/styles";
+  ```
+
+  3.  Style the components
+
+      ```jsx
+      const MyCardMedia = styled(CardMedia)({
+        height: 30,
+        paddingTop: "56.25%", // 16:9
+      });
+      ```
+
+  4.  Using the imported components [options](https://material-ui.com/components/cards/#card)
 
       ```jsx
       <Card>
         <CardHeader title="Food" subheader="Everyone loves food" />
-        <CardMedia
+        <MyCardMedia
           image="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
           title="All types of food"
         />
@@ -226,41 +274,11 @@
       </Card>
       ```
 
-  3.  Style the components
-
-      ```jsx
-      const MyCard = styled(Card)({
-        maxWidth: 345,
-      });
-
-      const MyCardMedia = styled(CardMedia)({
-        height: 0,
-        paddingTop: "56.25%", // 16:9
-      });
-      ```
-
-      - Then modify the components names
-
-        ```jsx
-        <MyCard>
-          <CardHeader title="Food" subheader="Everyone loves food" />
-          <MyCardMedia
-            image="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
-            title="All types of food"
-          />
-          <CardContent>
-            <Typography paragraph color="secondary">
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
-            </Typography>
-          </CardContent>
-        </MyCard>
-        ```
+  5.  Import `<CardDemo/>` into `app.js` and render it
 
 - Grid
 
-  1. Create a file called `GridDemo.js` and Import the `Grid` component and Card component from the project
+  1. Create a component called `GridDemo.js` and Import the `Grid` component and Card component from the previous secition
 
      ```jsx
      import { Grid } from "@material-ui/core";
@@ -270,38 +288,36 @@
   2. Using the `Grid` [options](https://material-ui.com/api/container/)
 
      ```jsx
-     <Grid container spacing={3}>
+     <Grid container spacing={8}>
        <Grid item xs={12}>
-         <Card />
+         <CardDemo />
        </Grid>
-       <Grid direction="row" alignItems="center">
-         <Grid item xs={6}>
-           <Card />
-         </Grid>
-         <Grid item xs={6}>
-           <Card />
-         </Grid>
+       <Grid item xs={6}>
+         <CardDemo />
        </Grid>
-       <Grid direction="row" alignItems="center">
-         <Grid item xs={3}>
-           <Card />
-         </Grid>
-         <Grid item xs={3}>
-           <Card />
-         </Grid>
-         <Grid item xs={3}>
-           <Card />
-         </Grid>
-         <Grid item xs={3}>
-           <Card />
-         </Grid>
+       <Grid item xs={6}>
+         <CardDemo />
+       </Grid>
+       <Grid item md={4} xs={6}>
+         <CardDemo />
+       </Grid>
+       <Grid item md={4} xs={6}>
+         <CardDemo />
+       </Grid>
+       <Grid item md={4} xs={6}>
+         <CardDemo />
+       </Grid>
+       <Grid item md={4} xs={6}>
+         <CardDemo />
        </Grid>
      </Grid>
      ```
 
+  3. Import `<GridDemo/>` into `app.js` and render it
+
 - Containers
 
-  1. Create a file called `ContainerDemo.js` Import the `Container` component
+  1. Create a component called `ContainerDemo.js` Import the `Container` component
 
      ```jsx
      import { Container } from "@material-ui/core";
@@ -315,3 +331,5 @@
         <GridDemo>
      </Container>
      ```
+
+  3. Import `<ContainerDemo/>` into `app.js` and render it
