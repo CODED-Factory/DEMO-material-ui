@@ -1,4 +1,6 @@
 import React from "react";
+
+//Components
 import {
   Card,
   CardHeader,
@@ -7,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
+//Utils
 import { styled } from "@material-ui/core/styles";
 
 const MyCardMedia = styled(CardMedia)({

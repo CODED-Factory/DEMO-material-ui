@@ -20,9 +20,9 @@ const ButtonDemo = () => {
   return (
     <>
       <MyButton customcolor={"#CCB647"}>Outlined</MyButton>
-      <Button variant="contained" color="secondary">
+      <MyButton customcolor={"#FFFF00"} variant="contained" color="secondary">
         Contained
-      </Button>
+      </MyButton>
       <Button variant="text" color="secondary">
         Text
       </Button>
